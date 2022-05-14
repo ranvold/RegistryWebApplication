@@ -10,7 +10,7 @@ namespace RegistryWebApplication.Models
             Works = new HashSet<Work>();
         }
 
-        public int Id { get; set; }
+        public int StudentId { get; set; }
         public string LastName { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string FathersName { get; set; } = null!;

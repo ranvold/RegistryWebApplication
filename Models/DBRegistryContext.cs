@@ -18,18 +18,18 @@ namespace RegistryWebApplication.Models
 
         public virtual DbSet<Classroom> Classrooms { get; set; } = null!;
         public virtual DbSet<Commission> Commissions { get; set; } = null!;
-        public virtual DbSet<Defense> Defenses { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<Teacher> Teachers { get; set; } = null!;
         public virtual DbSet<TeachersCommission> TeachersCommissions { get; set; } = null!;
         public virtual DbSet<Work> Works { get; set; } = null!;
+        public virtual DbSet<WorksDefense> WorksDefenses { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=THINKSTATION;\nDatabase=DBRegistry; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=THINKSTATION; Database=DBRegistry; Trusted_Connection=True; ");
             }
         }
 
@@ -38,31 +38,6 @@ namespace RegistryWebApplication.Models
             modelBuilder.Entity<Classroom>(entity =>
             {
                 entity.Property(e => e.ClassroomNum).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Defense>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.DefenseDate).HasColumnType("smalldatetime");
-
-                entity.HasOne(d => d.Classroom)
-                    .WithMany(p => p.Defenses)
-                    .HasForeignKey(d => d.ClassroomId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Defenses_Classrooms");
-
-                entity.HasOne(d => d.Commission)
-                    .WithMany(p => p.Defenses)
-                    .HasForeignKey(d => d.CommissionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Defenses_Commissions");
-
-                entity.HasOne(d => d.IdNavigation)
-                    .WithOne(p => p.Defense)
-                    .HasForeignKey<Defense>(d => d.Id)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Defenses_Works");
             });
 
             modelBuilder.Entity<Student>(entity =>
@@ -119,6 +94,34 @@ namespace RegistryWebApplication.Models
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Works_Teachers");
+            });
+
+            modelBuilder.Entity<WorksDefense>(entity =>
+            {
+                entity.HasKey(e => e.WorkId)
+                    .HasName("PK_Defenses");
+
+                entity.Property(e => e.WorkId).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.DefenseDate).HasColumnType("smalldatetime");
+
+                entity.HasOne(d => d.Classroom)
+                    .WithMany(p => p.WorksDefenses)
+                    .HasForeignKey(d => d.ClassroomId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Defenses_Classrooms");
+
+                entity.HasOne(d => d.Commission)
+                    .WithMany(p => p.WorksDefenses)
+                    .HasForeignKey(d => d.CommissionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Defenses_Commissions");
+
+                entity.HasOne(d => d.Work)
+                    .WithOne(p => p.WorksDefense)
+                    .HasForeignKey<WorksDefense>(d => d.WorkId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Defenses_Works");
             });
 
             OnModelCreatingPartial(modelBuilder);
