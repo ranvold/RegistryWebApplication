@@ -16,20 +16,19 @@ namespace RegistryWebApplication.Models
         {
         }
 
-        public virtual DbSet<Classroom> Classrooms { get; set; } = null!;
-        public virtual DbSet<Commission> Commissions { get; set; } = null!;
-        public virtual DbSet<Student> Students { get; set; } = null!;
-        public virtual DbSet<Teacher> Teachers { get; set; } = null!;
-        public virtual DbSet<TeachersCommission> TeachersCommissions { get; set; } = null!;
-        public virtual DbSet<Work> Works { get; set; } = null!;
-        public virtual DbSet<WorksDefense> WorksDefenses { get; set; } = null!;
+        public virtual DbSet<Classroom> Classrooms { get; set; }
+        public virtual DbSet<Commission> Commissions { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Teacher> Teachers { get; set; }
+        public virtual DbSet<TeachersCommission> TeachersCommissions { get; set; }
+        public virtual DbSet<Work> Works { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=THINKSTATION; Database=DBRegistry; Trusted_Connection=True; ");
+                optionsBuilder.UseSqlServer("Server=THINKSTATION; Database=DBRegistry; Trusted_Connection=True;");
             }
         }
 
@@ -37,36 +36,77 @@ namespace RegistryWebApplication.Models
         {
             modelBuilder.Entity<Classroom>(entity =>
             {
-                entity.Property(e => e.ClassroomNum).HasMaxLength(50);
+                entity.Property(e => e.ClassroomId).ValueGeneratedNever();
+
+                entity.Property(e => e.Number)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Commission>(entity =>
+            {
+                entity.Property(e => e.CommissionId).ValueGeneratedNever();
+
+                entity.Property(e => e.HeadFathersName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.HeadFirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.HeadLastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.Property(e => e.Email).HasMaxLength(50);
+                entity.Property(e => e.StudentId).ValueGeneratedNever();
 
-                entity.Property(e => e.FathersName).HasMaxLength(50);
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.FirstName).HasMaxLength(50);
+                entity.Property(e => e.FathersName)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.LastName).HasMaxLength(50);
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<Teacher>(entity =>
             {
-                entity.Property(e => e.Email).HasMaxLength(50);
+                entity.Property(e => e.TeacherId).ValueGeneratedNever();
 
-                entity.Property(e => e.FathersName).HasMaxLength(50);
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.FirstName).HasMaxLength(50);
+                entity.Property(e => e.FathersName)
+                    .IsRequired()
+                    .HasMaxLength(50);
 
-                entity.Property(e => e.LastName).HasMaxLength(50);
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
             });
 
             modelBuilder.Entity<TeachersCommission>(entity =>
             {
                 entity.HasKey(e => new { e.TeacherId, e.CommissionId });
 
-                entity.Property(e => e.AppointmentDate).HasColumnType("smalldatetime");
+                entity.Property(e => e.DefenseDate).HasColumnType("smalldatetime");
 
                 entity.HasOne(d => d.Commission)
                     .WithMany(p => p.TeachersCommissions)
@@ -83,6 +123,22 @@ namespace RegistryWebApplication.Models
 
             modelBuilder.Entity<Work>(entity =>
             {
+                entity.Property(e => e.WorkId).ValueGeneratedNever();
+
+                entity.Property(e => e.Name).IsRequired();
+
+                entity.HasOne(d => d.Classroom)
+                    .WithMany(p => p.Works)
+                    .HasForeignKey(d => d.ClassroomId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Works_Classrooms");
+
+                entity.HasOne(d => d.Commission)
+                    .WithMany(p => p.Works)
+                    .HasForeignKey(d => d.CommissionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Works_Commissions");
+
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.Works)
                     .HasForeignKey(d => d.StudentId)
@@ -94,34 +150,6 @@ namespace RegistryWebApplication.Models
                     .HasForeignKey(d => d.TeacherId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Works_Teachers");
-            });
-
-            modelBuilder.Entity<WorksDefense>(entity =>
-            {
-                entity.HasKey(e => e.WorkId)
-                    .HasName("PK_Defenses");
-
-                entity.Property(e => e.WorkId).ValueGeneratedOnAdd();
-
-                entity.Property(e => e.DefenseDate).HasColumnType("smalldatetime");
-
-                entity.HasOne(d => d.Classroom)
-                    .WithMany(p => p.WorksDefenses)
-                    .HasForeignKey(d => d.ClassroomId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Defenses_Classrooms");
-
-                entity.HasOne(d => d.Commission)
-                    .WithMany(p => p.WorksDefenses)
-                    .HasForeignKey(d => d.CommissionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Defenses_Commissions");
-
-                entity.HasOne(d => d.Work)
-                    .WithOne(p => p.WorksDefense)
-                    .HasForeignKey<WorksDefense>(d => d.WorkId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Defenses_Works");
             });
 
             OnModelCreatingPartial(modelBuilder);

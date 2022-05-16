@@ -7,12 +7,12 @@ namespace RegistryWebApplication.Models
     {
         public Classroom()
         {
-            WorksDefenses = new HashSet<WorksDefense>();
+            Works = new HashSet<Work>();
         }
 
         public int ClassroomId { get; set; }
-        public string ClassroomNum { get; set; } = null!;
+        public string Number { get; set; }
 
-        public virtual ICollection<WorksDefense> WorksDefenses { get; set; }
+        public virtual ICollection<Work> Works { get; set; }
     }
 }

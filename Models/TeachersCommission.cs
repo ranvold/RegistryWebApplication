@@ -7,9 +7,9 @@ namespace RegistryWebApplication.Models
     {
         public int TeacherId { get; set; }
         public int CommissionId { get; set; }
-        public DateTime AppointmentDate { get; set; }
+        public DateTime DefenseDate { get; set; }
 
-        public virtual Commission Commission { get; set; } = null!;
-        public virtual Teacher Teacher { get; set; } = null!;
+        public virtual Commission Commission { get; set; }
+        public virtual Teacher Teacher { get; set; }
     }
 }

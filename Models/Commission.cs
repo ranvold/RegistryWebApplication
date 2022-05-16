@@ -8,13 +8,15 @@ namespace RegistryWebApplication.Models
         public Commission()
         {
             TeachersCommissions = new HashSet<TeachersCommission>();
-            WorksDefenses = new HashSet<WorksDefense>();
+            Works = new HashSet<Work>();
         }
 
         public int CommissionId { get; set; }
-        public int CommissionCode { get; set; }
+        public string HeadLastName { get; set; }
+        public string HeadFirstName { get; set; }
+        public string HeadFathersName { get; set; }
 
         public virtual ICollection<TeachersCommission> TeachersCommissions { get; set; }
-        public virtual ICollection<WorksDefense> WorksDefenses { get; set; }
+        public virtual ICollection<Work> Works { get; set; }
     }
 }
