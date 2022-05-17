@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RegistryWebApplication.Models
 {
@@ -11,6 +12,8 @@ namespace RegistryWebApplication.Models
         }
 
         public int ClassroomId { get; set; }
+
+        [Required]
         public string Number { get; set; }
 
         public virtual ICollection<Work> Works { get; set; }

@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RegistryWebApplication.Models
 {
     public partial class Work
     {
         public int WorkId { get; set; }
+
+        [Required]
         public string Name { get; set; }
         public byte? Mark { get; set; }
+
+        [Required]
         public int StudentId { get; set; }
+
+        [Required]
         public int TeacherId { get; set; }
+
+        [Required]
         public int CommissionId { get; set; }
+
+        [Required]
         public int ClassroomId { get; set; }
 
         public virtual Classroom Classroom { get; set; }
