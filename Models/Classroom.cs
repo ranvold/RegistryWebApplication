@@ -11,7 +11,7 @@ namespace RegistryWebApplication.Models
             Works = new HashSet<Work>();
         }
 
-        public int ClassroomId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Number { get; set; }

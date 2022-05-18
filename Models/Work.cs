@@ -6,7 +6,7 @@ namespace RegistryWebApplication.Models
 {
     public partial class Work
     {
-        public int WorkId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

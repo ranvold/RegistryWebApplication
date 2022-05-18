@@ -6,11 +6,15 @@ namespace RegistryWebApplication.Models
 {
     public partial class TeachersCommission
     {
+        public int Id { get; set; }
+
+        [Required]
         public int TeacherId { get; set; }
+
+        [Required]
         public int CommissionId { get; set; }
 
         [Required]
-        [Display(Name = "Defense date")]
         public DateTime DefenseDate { get; set; }
 
         public virtual Commission Commission { get; set; }

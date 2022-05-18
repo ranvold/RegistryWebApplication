@@ -12,7 +12,7 @@ namespace RegistryWebApplication.Models
             Works = new HashSet<Work>();
         }
 
-        public int CommissionId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Display(Name = "Head last name")]

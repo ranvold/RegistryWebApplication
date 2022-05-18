@@ -12,7 +12,7 @@ namespace RegistryWebApplication.Models
             Works = new HashSet<Work>();
         }
 
-        public int TeacherId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Display(Name = "Last name")]

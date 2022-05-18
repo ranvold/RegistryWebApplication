@@ -33,7 +33,7 @@ namespace RegistryWebApplication.Controllers
             }
 
             var classroom = await _context.Classrooms
-                .FirstOrDefaultAsync(m => m.ClassroomId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (classroom == null)
             {
                 return NotFound();
@@ -53,7 +53,7 @@ namespace RegistryWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClassroomId,Number")] Classroom classroom)
+        public async Task<IActionResult> Create([Bind("Id,Number")] Classroom classroom)
         {
             if (ModelState.IsValid)
             {
@@ -85,9 +85,9 @@ namespace RegistryWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClassroomId,Number")] Classroom classroom)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Number")] Classroom classroom)
         {
-            if (id != classroom.ClassroomId)
+            if (id != classroom.Id)
             {
                 return NotFound();
             }
@@ -101,7 +101,7 @@ namespace RegistryWebApplication.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ClassroomExists(classroom.ClassroomId))
+                    if (!ClassroomExists(classroom.Id))
                     {
                         return NotFound();
                     }
@@ -124,7 +124,7 @@ namespace RegistryWebApplication.Controllers
             }
 
             var classroom = await _context.Classrooms
-                .FirstOrDefaultAsync(m => m.ClassroomId == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (classroom == null)
             {
                 return NotFound();
@@ -154,7 +154,7 @@ namespace RegistryWebApplication.Controllers
 
         private bool ClassroomExists(int id)
         {
-          return _context.Classrooms.Any(e => e.ClassroomId == id);
+          return _context.Classrooms.Any(e => e.Id == id);
         }
     }
 }

@@ -36,8 +36,6 @@ namespace RegistryWebApplication.Models
         {
             modelBuilder.Entity<Classroom>(entity =>
             {
-                entity.Property(e => e.ClassroomId).ValueGeneratedNever();
-
                 entity.Property(e => e.Number)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -45,8 +43,6 @@ namespace RegistryWebApplication.Models
 
             modelBuilder.Entity<Commission>(entity =>
             {
-                entity.Property(e => e.CommissionId).ValueGeneratedNever();
-
                 entity.Property(e => e.HeadFathersName)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -62,8 +58,6 @@ namespace RegistryWebApplication.Models
 
             modelBuilder.Entity<Student>(entity =>
             {
-                entity.Property(e => e.StudentId).ValueGeneratedNever();
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -83,8 +77,6 @@ namespace RegistryWebApplication.Models
 
             modelBuilder.Entity<Teacher>(entity =>
             {
-                entity.Property(e => e.TeacherId).ValueGeneratedNever();
-
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -104,8 +96,6 @@ namespace RegistryWebApplication.Models
 
             modelBuilder.Entity<TeachersCommission>(entity =>
             {
-                entity.HasKey(e => new { e.TeacherId, e.CommissionId });
-
                 entity.Property(e => e.DefenseDate).HasColumnType("smalldatetime");
 
                 entity.HasOne(d => d.Commission)
@@ -123,8 +113,6 @@ namespace RegistryWebApplication.Models
 
             modelBuilder.Entity<Work>(entity =>
             {
-                entity.Property(e => e.WorkId).ValueGeneratedNever();
-
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.HasOne(d => d.Classroom)
