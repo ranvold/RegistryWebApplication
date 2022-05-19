@@ -15,6 +15,7 @@ namespace RegistryWebApplication.Models
         public int CommissionId { get; set; }
 
         [Required]
+        [Display(Name = "Defense date")]
         public DateTime DefenseDate { get; set; }
 
         public virtual Commission Commission { get; set; }

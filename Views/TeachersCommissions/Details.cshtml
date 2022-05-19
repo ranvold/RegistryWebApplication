@@ -1,0 +1,37 @@
+﻿@model RegistryWebApplication.Models.TeachersCommission
+
+
+<h1>Details</h1>
+
+<div>
+    <h4>TeachersCommission</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DefenseDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DefenseDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Commission)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Commission.HeadLastName)
+            @Html.DisplayFor(model => model.Commission.HeadFirstName)
+            @Html.DisplayFor(model => model.Commission.HeadFathersName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teacher)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teacher.LastName)
+            @Html.DisplayFor(model => model.Teacher.FirstName)
+            @Html.DisplayFor(model => model.Teacher.LastName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" class="btn btn-info" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index" class="btn btn-danger">Back</a>
+</div>
