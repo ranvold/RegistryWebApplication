@@ -1,9 +1,5 @@
 ﻿@model RegistryWebApplication.Models.Classroom
 
-@{
-    ViewData["Title"] = "Edit";
-}
-
 <h1>Edit</h1>
 
 <h4>Classroom</h4>
@@ -18,16 +14,21 @@
                 <input asp-for="Number" class="form-control" />
                 <span asp-validation-for="Number" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <div class="col offset-1 row">
+                    <div class="col">
+                        <input type="submit" value="Edit" class="btn btn-info w-75" />
+                    </div>
+                    <div class="col">
+                        <a asp-action="Index" class="btn btn-danger w-75">Back</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
