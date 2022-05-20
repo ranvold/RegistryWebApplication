@@ -13,10 +13,10 @@
                 @Html.DisplayNameFor(model => model.DefenseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Commission)
+                @Html.DisplayNameFor(model => model.Teacher)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Teacher)
+                @Html.DisplayNameFor(model => model.Commission)
             </th>
             <th>
                 Changes
@@ -31,14 +31,14 @@
                     @Html.DisplayFor(modelItem => item.DefenseDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Commission.HeadLastName)
-                    @Html.DisplayFor(modelItem => item.Commission.HeadFirstName)
-                    @Html.DisplayFor(modelItem => item.Commission.HeadFathersName)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Teacher.LastName)
                     @Html.DisplayFor(modelItem => item.Teacher.FirstName)
                     @Html.DisplayFor(modelItem => item.Teacher.FathersName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Commission.HeadLastName)
+                    @Html.DisplayFor(modelItem => item.Commission.HeadFirstName)
+                    @Html.DisplayFor(modelItem => item.Commission.HeadFathersName)
                 </td>
                 <td style="width:20%">
                     <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id">Edit</a> |

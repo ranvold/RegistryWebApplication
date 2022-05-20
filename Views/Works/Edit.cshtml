@@ -24,35 +24,40 @@
                 <span asp-validation-for="Mark" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="StudentId" class="control-label"></label>
+                <label asp-for="StudentId" class="control-label">Student</label>
                 <select asp-for="StudentId" class="form-control" asp-items="ViewBag.StudentId"></select>
                 <span asp-validation-for="StudentId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="TeacherId" class="control-label"></label>
+                <label asp-for="TeacherId" class="control-label">Teacher</label>
                 <select asp-for="TeacherId" class="form-control" asp-items="ViewBag.TeacherId"></select>
                 <span asp-validation-for="TeacherId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CommissionId" class="control-label"></label>
+                <label asp-for="CommissionId" class="control-label">Commission</label>
                 <select asp-for="CommissionId" class="form-control" asp-items="ViewBag.CommissionId"></select>
                 <span asp-validation-for="CommissionId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClassroomId" class="control-label"></label>
+                <label asp-for="ClassroomId" class="control-label">Classroom</label>
                 <select asp-for="ClassroomId" class="form-control" asp-items="ViewBag.ClassroomId"></select>
                 <span asp-validation-for="ClassroomId" class="text-danger"></span>
             </div>
+            <br />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <div class="col offset-1 row">
+                    <div class="col">
+                        <input type="submit" value="Edit" class="btn btn-info w-75" />
+                    </div>
+                    <div class="col">
+                        <a asp-action="Index" class="btn btn-danger w-75">Back</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

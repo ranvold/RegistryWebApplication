@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<RegistryWebApplication.Models.Work>
 
-@{
-    ViewData["Title"] = "Index";
-}
 
-<h1>Index</h1>
+<h1>Works</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Add new</a>
 </p>
-<table class="table">
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
             <th>
@@ -22,44 +19,52 @@
                 @Html.DisplayNameFor(model => model.Classroom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Commission)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Student)
+                @Html.DisplayNameFor(model => model.Student) 
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Teacher)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Commission)
+            </th>
+            <th>
+                Changes
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mark)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Classroom.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Commission.HeadFathersName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Student.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Teacher.Email)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mark)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Classroom.Number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Student.LastName)
+                    @Html.DisplayFor(modelItem => item.Student.FirstName[0]).
+                    @Html.DisplayFor(modelItem => item.Student.FathersName[0]).
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.LastName)
+                    @Html.DisplayFor(modelItem => item.Teacher.FirstName[0]).
+                    @Html.DisplayFor(modelItem => item.Teacher.FathersName[0]).
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Commission.HeadLastName)
+                    @Html.DisplayFor(modelItem => item.Commission.HeadFirstName[0]).
+                    @Html.DisplayFor(modelItem => item.Commission.HeadFathersName[0]).
+                </td>
+                <td style="width:20%">
+                    <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

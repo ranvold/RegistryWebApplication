@@ -142,7 +142,25 @@ namespace RegistryWebApplication.Controllers
             {
                 return Problem("Entity set 'DBRegistryContext.Commissions'  is null.");
             }
+
             var commission = await _context.Commissions.FindAsync(id);
+
+            var teacherCommission = await _context.TeachersCommissions.FirstOrDefaultAsync(t => t.CommissionId == id);
+
+            if (teacherCommission != null && commission.Id == teacherCommission.CommissionId)
+            {
+                ViewBag.Message = string.Format("Sorry, but this head of commission has a commission!");
+                return View(commission);
+            }
+
+            var commissionWork = await _context.Works.FirstOrDefaultAsync(t => t.CommissionId == id);
+
+            if (commissionWork != null && commission.Id == commissionWork.CommissionId)
+            {
+                ViewBag.Message = string.Format("Sorry, but this head of commission has a work!");
+                return View(commission);
+            }
+
             if (commission != null)
             {
                 _context.Commissions.Remove(commission);

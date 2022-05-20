@@ -50,10 +50,29 @@ namespace RegistryWebApplication.Controllers
         // GET: Works/Create
         public IActionResult Create()
         {
+            IEnumerable<SelectListItem> selectCommissions = from c in _context.Commissions
+                                                            select new SelectListItem
+                                                            {
+                                                                Value = c.Id.ToString(),
+                                                                Text = c.HeadLastName + " " + c.HeadFirstName + " " + c.HeadFathersName
+                                                            };
+            IEnumerable<SelectListItem> selectStudents = from s in _context.Students
+                                                            select new SelectListItem
+                                                            {
+                                                                Value = s.Id.ToString(),
+                                                                Text = s.LastName + " " + s.FirstName + " " + s.FathersName
+                                                            };
+            IEnumerable<SelectListItem> selectTeachers = from t in _context.Teachers
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = t.Id.ToString(),
+                                                             Text = t.LastName + " " + t.FirstName + " " + t.FathersName
+                                                         };
+
             ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Number");
-            ViewData["CommissionId"] = new SelectList(_context.Commissions, "Id", "HeadFathersName");
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Email");
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Email");
+            ViewData["CommissionId"] = new SelectList(selectCommissions, "Value", "Text");
+            ViewData["StudentId"] = new SelectList(selectStudents, "Value", "Text");
+            ViewData["TeacherId"] = new SelectList(selectTeachers, "Value", "Text");
             return View();
         }
 
@@ -71,9 +90,9 @@ namespace RegistryWebApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Number", work.ClassroomId);
-            ViewData["CommissionId"] = new SelectList(_context.Commissions, "Id", "HeadFathersName", work.CommissionId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Email", work.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Email", work.TeacherId);
+            ViewData["CommissionId"] = new SelectList(_context.Commissions, "Id", "HeadLastName", work.CommissionId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "LastName", work.StudentId);
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "LastName", work.TeacherId);
             return View(work);
         }
 
@@ -90,10 +109,30 @@ namespace RegistryWebApplication.Controllers
             {
                 return NotFound();
             }
+
+            IEnumerable<SelectListItem> selectCommissions = from c in _context.Commissions
+                                                            select new SelectListItem
+                                                            {
+                                                                Value = c.Id.ToString(),
+                                                                Text = c.HeadLastName + " " + c.HeadFirstName + " " + c.HeadFathersName
+                                                            };
+            IEnumerable<SelectListItem> selectStudents = from s in _context.Students
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = s.Id.ToString(),
+                                                             Text = s.LastName + " " + s.FirstName + " " + s.FathersName
+                                                         };
+            IEnumerable<SelectListItem> selectTeachers = from t in _context.Teachers
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = t.Id.ToString(),
+                                                             Text = t.LastName + " " + t.FirstName + " " + t.FathersName
+                                                         };
+
             ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Number", work.ClassroomId);
-            ViewData["CommissionId"] = new SelectList(_context.Commissions, "Id", "HeadFathersName", work.CommissionId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Email", work.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Email", work.TeacherId);
+            ViewData["CommissionId"] = new SelectList(selectCommissions, "Value", "Text", work.CommissionId);
+            ViewData["StudentId"] = new SelectList(selectStudents, "Value", "Text", work.StudentId);
+            ViewData["TeacherId"] = new SelectList(selectTeachers, "Value", "Text", work.TeacherId);
             return View(work);
         }
 
@@ -130,9 +169,9 @@ namespace RegistryWebApplication.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ClassroomId"] = new SelectList(_context.Classrooms, "Id", "Number", work.ClassroomId);
-            ViewData["CommissionId"] = new SelectList(_context.Commissions, "Id", "HeadFathersName", work.CommissionId);
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Email", work.StudentId);
-            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "Email", work.TeacherId);
+            ViewData["CommissionId"] = new SelectList(_context.Commissions, "Id", "HeadLastName", work.CommissionId);
+            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "LastName", work.StudentId);
+            ViewData["TeacherId"] = new SelectList(_context.Teachers, "Id", "LastName", work.TeacherId);
             return View(work);
         }
 

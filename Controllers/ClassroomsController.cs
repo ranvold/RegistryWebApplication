@@ -142,7 +142,17 @@ namespace RegistryWebApplication.Controllers
             {
                 return Problem("Entity set 'DBRegistryContext.Classrooms'  is null.");
             }
+
             var classroom = await _context.Classrooms.FindAsync(id);
+
+            var workClassroom = await _context.Works.FirstOrDefaultAsync(t => t.ClassroomId == id);
+
+            if (workClassroom != null && classroom.Id == workClassroom.ClassroomId)
+            {
+                ViewBag.Message = string.Format("Sorry, but this classroom has a work defense!");
+                return View(classroom);
+            }
+
             if (classroom != null)
             {
                 _context.Classrooms.Remove(classroom);

@@ -143,6 +143,23 @@ namespace RegistryWebApplication.Controllers
                 return Problem("Entity set 'DBRegistryContext.Teachers'  is null.");
             }
             var teacher = await _context.Teachers.FindAsync(id);
+           
+            var teacherWork = await _context.Works.FirstOrDefaultAsync(t => t.TeacherId == id);
+
+            if (teacherWork != null && teacher.Id == teacherWork.TeacherId)
+            {
+                ViewBag.Message = string.Format("Sorry, but this teacher has a work!");
+                return View(teacher);
+            }
+
+            var teacherCommmission = await _context.TeachersCommissions.FirstOrDefaultAsync(t => t.TeacherId == id);
+
+            if (teacherCommmission != null && teacher.Id == teacherCommmission.TeacherId)
+            {
+                ViewBag.Message = string.Format("Sorry, but this teacher has a commission!");
+                return View(teacher);
+            }
+
             if (teacher != null)
             {
                 _context.Teachers.Remove(teacher);
