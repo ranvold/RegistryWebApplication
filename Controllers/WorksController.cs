@@ -22,31 +22,10 @@ namespace RegistryWebApplication.Controllers
         public async Task<IActionResult> Index()
         {
             var dBRegistryContext = _context.Works.Include(w => w.Classroom).Include(w => w.Commission).Include(w => w.Student).Include(w => w.Teacher);
+
             return View(await dBRegistryContext.ToListAsync());
         }
-
-        // GET: Works/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Works == null)
-            {
-                return NotFound();
-            }
-
-            var work = await _context.Works
-                .Include(w => w.Classroom)
-                .Include(w => w.Commission)
-                .Include(w => w.Student)
-                .Include(w => w.Teacher)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (work == null)
-            {
-                return NotFound();
-            }
-
-            return View(work);
-        }
-
+ 
         // GET: Works/Create
         public IActionResult Create()
         {

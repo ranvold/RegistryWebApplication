@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RegistryWebApplication.Models;
+using ClosedXML.Excel;
 
 namespace RegistryWebApplication.Controllers
 {
@@ -160,6 +161,109 @@ namespace RegistryWebApplication.Controllers
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Import(IFormFile fileExcel)
+        {
+            if (ModelState.IsValid)
+            {
+                if(fileExcel != null)
+                {
+                    using (var stream = new FileStream(fileExcel.FileName, FileMode.Create))
+                    {
+                        await fileExcel.CopyToAsync(stream);
+                        using (XLWorkbook workBook = new XLWorkbook(stream, XLEventTracking.Disabled))
+                        {
+                            foreach (IXLWorksheet worksheet in workBook.Worksheets)
+                            {
+                                var students = await _context.Students.ToListAsync();
+                                foreach (IXLRow row in worksheet.RowsUsed().Skip(1))
+                                {
+                                    try
+                                    {
+                                        Student student = new Student();
+                                        student.LastName = row.Cell(1).Value.ToString();
+                                        student.FirstName = row.Cell(2).Value.ToString();
+                                        student.FathersName = row.Cell(3).Value.ToString();
+                                        student.Email = row.Cell(4).Value.ToString();
+
+                                        if (string.IsNullOrEmpty(student.LastName) || string.IsNullOrEmpty(student.FirstName) ||
+                                            string.IsNullOrEmpty(student.FathersName) || string.IsNullOrEmpty(student.Email))
+                                        {
+                                            throw new NullReferenceException("All data fields must be filled. Action has terminated!");
+                                        }
+
+                                        foreach (var currStudent in students)
+                                        {
+                                            if (currStudent.LastName == student.LastName)
+                                            {
+                                                if (currStudent.FirstName == student.FirstName)
+                                                {
+                                                    if (currStudent.FathersName == student.FathersName)
+                                                    {
+                                                        throw new Exception($"{student.LastName} {student.FirstName} {student.FathersName} is already exist. Action has terminated!");
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        _context.Students.Add(student);
+                                    }
+                                    catch (NullReferenceException n)
+                                    {
+                                        ViewBag.Message = n.Message;
+                                        return View();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        ViewBag.Message = e.Message;
+                                        return View();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public ActionResult Export()
+        {
+            using (XLWorkbook workbook = new XLWorkbook(XLEventTracking.Disabled))
+            {
+                var students = _context.Students.ToList();
+
+                var worksheet = workbook.Worksheets.Add("Students");
+
+                worksheet.Cell("A1").Value = "Last name";
+                worksheet.Cell("B1").Value = "First name";
+                worksheet.Cell("C1").Value = "Fathers name";
+                worksheet.Cell("D1").Value = "Email";
+                worksheet.Row(1).Style.Font.Bold = true;
+
+                for (int i = 0; i < students.Count; i++)
+                {
+                    worksheet.Cell(i + 2, 1).Value = students[i].LastName;
+                    worksheet.Cell(i + 2, 2).Value = students[i].FirstName;
+                    worksheet.Cell(i + 2, 3).Value = students[i].FathersName;
+                    worksheet.Cell(i + 2, 4).Value = students[i].Email;
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    stream.Flush();
+
+                    return new FileContentResult(stream.ToArray(),
+                        "application/vnd.openxmlformats-officedocument.speadsheetml.sheet")
+                    {
+                        FileDownloadName = $"RegistryStudents_{DateTime.UtcNow.ToShortDateString()}.xlsx"
+                    };
+                }
+            }
         }
 
         private bool StudentExists(int id)

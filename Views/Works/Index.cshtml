@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<RegistryWebApplication.Models.Work>
 
+@{
+    ViewData["Title"] = "Works";
+}
 
 <h1>Works</h1>
 
@@ -19,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.Classroom)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Student) 
+                @Html.DisplayNameFor(model => model.Student)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Teacher)
@@ -60,7 +63,8 @@
                     @Html.DisplayFor(modelItem => item.Commission.HeadFirstName[0]).
                     @Html.DisplayFor(modelItem => item.Commission.HeadFathersName[0]).
                 </td>
-                <td style="width:20%">
+
+                <td style="width:15%">
                     <a asp-action="Edit" class="btn btn-info" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
                 </td>

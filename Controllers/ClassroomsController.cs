@@ -24,24 +24,7 @@ namespace RegistryWebApplication.Controllers
               return View(await _context.Classrooms.ToListAsync());
         }
 
-        // GET: Classrooms/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Classrooms == null)
-            {
-                return NotFound();
-            }
-
-            var classroom = await _context.Classrooms
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (classroom == null)
-            {
-                return NotFound();
-            }
-
-            return View(classroom);
-        }
-
+       
         // GET: Classrooms/Create
         public IActionResult Create()
         {

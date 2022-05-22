@@ -25,26 +25,6 @@ namespace RegistryWebApplication.Controllers
             return View(await dBRegistryContext.ToListAsync());
         }
 
-        // GET: TeachersCommissions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.TeachersCommissions == null)
-            {
-                return NotFound();
-            }
-
-            var teachersCommission = await _context.TeachersCommissions
-                .Include(t => t.Commission)
-                .Include(t => t.Teacher)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (teachersCommission == null)
-            {
-                return NotFound();
-            }
-
-            return View(teachersCommission);
-        }
-
         // GET: TeachersCommissions/Create
         public IActionResult Create()
         {
