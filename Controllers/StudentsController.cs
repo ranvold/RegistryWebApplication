@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RegistryWebApplication.Models;
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RegistryWebApplication.Controllers
 {
@@ -44,6 +45,7 @@ namespace RegistryWebApplication.Controllers
         }
 
         // GET: Students/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace RegistryWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([Bind("Id,LastName,FirstName,FathersName,Email")] Student student)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace RegistryWebApplication.Controllers
         }
 
         // GET: Students/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Students == null)
@@ -86,6 +90,7 @@ namespace RegistryWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,LastName,FirstName,FathersName,Email")] Student student)
         {
             if (id != student.Id)
@@ -117,6 +122,7 @@ namespace RegistryWebApplication.Controllers
         }
 
         // GET: Students/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Students == null)
@@ -135,6 +141,7 @@ namespace RegistryWebApplication.Controllers
         }
 
         // POST: Students/Delete/5
+        [Authorize(Roles = "admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -165,6 +172,7 @@ namespace RegistryWebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Import(IFormFile fileExcel)
         {
             if (ModelState.IsValid)

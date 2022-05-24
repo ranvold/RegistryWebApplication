@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RegistryWebApplication.Models;
 
@@ -6,6 +7,7 @@ namespace RegistryWebApplication.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+  
     public class BarChartsController : ControllerBase
     {
         private readonly DBRegistryContext _context;

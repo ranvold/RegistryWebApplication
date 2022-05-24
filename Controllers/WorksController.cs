@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,8 +26,9 @@ namespace RegistryWebApplication.Controllers
 
             return View(await dBRegistryContext.ToListAsync());
         }
- 
+
         // GET: Works/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             IEnumerable<SelectListItem> selectCommissions = from c in _context.Commissions
@@ -60,6 +62,7 @@ namespace RegistryWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Mark,StudentId,TeacherId,CommissionId,ClassroomId")] Work work)
         {
             if (ModelState.IsValid)
@@ -76,6 +79,7 @@ namespace RegistryWebApplication.Controllers
         }
 
         // GET: Works/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Works == null)
@@ -120,6 +124,7 @@ namespace RegistryWebApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Mark,StudentId,TeacherId,CommissionId,ClassroomId")] Work work)
         {
             if (id != work.Id)
@@ -155,6 +160,7 @@ namespace RegistryWebApplication.Controllers
         }
 
         // GET: Works/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Works == null)
@@ -179,6 +185,7 @@ namespace RegistryWebApplication.Controllers
         // POST: Works/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Works == null)
