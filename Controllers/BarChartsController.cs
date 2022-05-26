@@ -20,7 +20,7 @@ namespace RegistryWebApplication.Controllers
         [HttpGet("JsonDataBarChart")]
         public JsonResult JsonDataBarChart()
         {
-
+            
             var totalWorks = _context.Works.Count();
             var defensedWorks = _context.Works.Count(d => d.Mark >= 60);
 

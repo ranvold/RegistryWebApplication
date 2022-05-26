@@ -26,6 +26,7 @@ namespace RegistryWebApplication.Models
         public string FathersName { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         public virtual ICollection<Work> Works { get; set; }
