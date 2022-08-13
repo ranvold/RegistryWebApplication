@@ -14,6 +14,7 @@ namespace RegistryWebApplication.Models
         public DBRegistryContext(DbContextOptions<DBRegistryContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public virtual DbSet<Classroom> Classrooms { get; set; }
@@ -28,7 +29,7 @@ namespace RegistryWebApplication.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=THINKSTATION; Database=DBRegistry; Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=WORKSTATION; Database=DBRegistry; Trusted_Connection=True;");
             }
         }
 
