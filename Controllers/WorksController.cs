@@ -82,7 +82,7 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Works == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -163,7 +163,7 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Works == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -188,10 +188,6 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Works == null)
-            {
-                return Problem("Entity set 'DBRegistryContext.Works'  is null.");
-            }
             var work = await _context.Works.FindAsync(id);
             if (work != null)
             {

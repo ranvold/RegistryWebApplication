@@ -29,7 +29,7 @@ namespace RegistryWebApplication.Controllers
         // GET: Students/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Students == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -72,7 +72,7 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Students == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -125,7 +125,7 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Students == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -146,11 +146,6 @@ namespace RegistryWebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Students == null)
-            {
-                return Problem("Entity set 'DBRegistryContext.Students'  is null.");
-            }
-
             var student = await _context.Students.FindAsync(id);
 
             var studentWork = await _context.Works.FirstOrDefaultAsync(t => t.StudentId == id);

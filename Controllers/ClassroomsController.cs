@@ -54,7 +54,7 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Classrooms == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -107,7 +107,7 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Classrooms == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -128,11 +128,6 @@ namespace RegistryWebApplication.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Classrooms == null)
-            {
-                return Problem("Entity set 'DBRegistryContext.Classrooms'  is null.");
-            }
-
             var classroom = await _context.Classrooms.FindAsync(id);
 
             var workClassroom = await _context.Works.FirstOrDefaultAsync(t => t.ClassroomId == id);
